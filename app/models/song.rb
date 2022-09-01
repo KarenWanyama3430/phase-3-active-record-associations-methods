@@ -1,14 +1,21 @@
-class Song < ActiveRecord::Base
-  belongs_to :artist
-  belongs_to :genre
+class Genre < ActiveRecord::Base
+  has_many :songs
+  has_many :artists, through: :songs
 
-  def get_genre_name
+  def song_count
+    self.songs.count
   end
 
-  def drake_made_this
-    # when this method is called it should assign the song's artist to Drake
-    # Drake doesn't exist in the database as an artist yet, so you'll have to create a record
-    # Hint: you won't want to create an artist record every time this method is called, only if Drake is *not found*
+  def artist_count
+    self.artists.count
+  end
 
+  def all_artist_names
+    self.artists.map do |artist|
+      artist.name
+    end
+
+    # Or, use #pluck
+    # self.artists.pluck(:name)
   end
 end
